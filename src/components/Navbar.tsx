@@ -17,9 +17,11 @@ const Navbar = () => {
 						Cart
 					</h1>
 				</Link>
-				<h1 className="mr-4 m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
-					Login
-				</h1>
+				<Link href="/sign-in">
+					<h1 className="mr-4 m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
+						Login
+					</h1>
+				</Link>
 			</div>
 		</nav>
 	);
