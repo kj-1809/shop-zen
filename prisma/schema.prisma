@@ -3,7 +3,61 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id      String     @id @default(cuid())
+  name    String
+  email   String
+  role    UserRole   @default(USER)
+
+  cart    CartItem[]
+  reviews Review[]
+}
+
+model Product {
+  id          String     @id @default(cuid())
+  name        String
+  description String     @db.Text
+  price       Int
+
+  cartItems   CartItem[]
+  reviews     Review[]
+}
+
+model CartItem {
+  id       String @id @default(cuid())
+  quantity Int
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model Review {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([userId])
+  @@index([productId])
 }
