@@ -1,12 +1,15 @@
+import { ProductCard } from "@/components/ProductCard";
 export default function ProductSearch({
 	searchParams,
 }: {
 	searchParams: { q: string | undefined };
 }) {
 	return (
-		<div>
-			<h1>Product Search Page</h1>
-			<h2>{searchParams.q}</h2>
+		<div className= "grid grid-cols-1 md:grid-cols-3">
+			<ProductCard />
+			<ProductCard />
+			<ProductCard />
+			<ProductCard />
 		</div>
 	);
 }

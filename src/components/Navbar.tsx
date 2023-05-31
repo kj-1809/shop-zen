@@ -13,12 +13,12 @@ const Navbar = () => {
 			</Link>
 			<div className="flex items-center">
 				<Link href="/cart">
-					<h1 className="m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
+					<h1 className="m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
 						Cart
 					</h1>
 				</Link>
 				<Link href="/sign-in">
-					<h1 className="mr-4 m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
+					<h1 className="sm:mr-4 mr-2 m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
 						Login
 					</h1>
 				</Link>
