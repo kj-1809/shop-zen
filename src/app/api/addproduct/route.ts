@@ -14,5 +14,5 @@ export async function POST(request: Request) {
 
   // fetch current user data
   // if user is not admin return the same
-  
+ 
 }
