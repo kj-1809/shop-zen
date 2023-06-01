@@ -50,7 +50,7 @@ export const Carousel = () => {
 	}
 
 	return (
-		<div className="h-[70vh] relative">
+		<div className="h-[70vh] relative transition-transform duration-700 ease-in-out">
 			<Image
 				src={`${slides[index].imgUrl}`}
 				alt="carousel-img"
@@ -60,22 +60,22 @@ export const Carousel = () => {
 
 			<div
 				onClick={handleBack}
-				className="absolute top-[50%] left-2 bg-slate-500 rounded-full text-4xl opacity-50 cursor-pointer"
+				className="absolute top-[50%] left-2 bg-slate-500 rounded-full text-2xl opacity-50 cursor-pointer p-2"
 			>
 				<AiOutlineArrowLeft />
 			</div>
 			<div
 				onClick={handleNext}
-				className="absolute top-[50%] right-2 bg-slate-500 rounded-full text-4xl opacity-50 cursor-pointer"
+				className="absolute top-[50%] right-2 bg-slate-500 rounded-full text-2xl opacity-50 cursor-pointer p-2"
 			>
 				<AiOutlineArrowRight />
 			</div>
 
 			<div className="absolute bottom-4 left-4">
-				<h1 className="font-bold text-4xl text-white shadow-md">
+				<h1 className="font-bold text-4xl text-white">
 					{slides[index].title}
 				</h1>
-				<h1 className="font-semibold text-2xl text-white shadow-md">
+				<h1 className="font-semibold text-2xl text-white">
 					{slides[index].description}
 				</h1>
 			</div>

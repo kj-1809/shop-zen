@@ -10,7 +10,6 @@ export const ProductCard = () => {
 						alt="productimg"
 						fill
 						style={{ objectFit: "cover" }}
-						className = "rounded-md"
 					/>
 				</div>
 				<h1 className="font-medium text-lg mt-3">Macbook pro 14 inch</h1>
