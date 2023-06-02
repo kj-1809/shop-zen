@@ -14,23 +14,40 @@ enum UserRole {
 }
 
 model User {
-  id      String     @id @default(cuid())
-  name    String
-  email   String
-  role    UserRole   @default(USER)
+  id    String   @id @default(cuid())
+  name  String
+  email String
+  role  UserRole @default(USER)
 
   cart    CartItem[]
   reviews Review[]
 }
 
 model Product {
-  id          String     @id @default(cuid())
+  id          String @id @default(cuid())
   name        String
-  description String     @db.Text
+  description String @db.Text
   price       Int
 
-  cartItems   CartItem[]
-  reviews     Review[]
+  imageUrls ImageUrl[]
+  cartItems CartItem[]
+  reviews   Review[]
+}
+
+model ImageUrl {
+  url String @id
+
+  productId String
+  Product   Product? @relation(fields: [productId], references: [id])
+
+  @@index([productId])
+}
+
+model CarouselItem {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+  imgUrl      String
 }
 
 model CartItem {

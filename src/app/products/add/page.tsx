@@ -2,22 +2,25 @@
 import axios from "axios";
 import { useState } from "react";
 import type { AddProductApiRequest } from "@/lib/validators/api-request";
+import { UploadButton } from "@uploadthing/react";
+import { OurFileRouter } from "../../api/uploadthing/core";
+import "@uploadthing/react/styles.css"; 
 
 export default function AddProduct() {
-
 	function handleSubmit() {
-		const payload : AddProductApiRequest = {
-			name : name,
-			description : description,
-			price : price
-		}
-		const res = axios.post("/api/addproduct" , payload)
-		console.log("api response : " , res)
+		const payload: AddProductApiRequest = {
+			name: name,
+			description: description,
+			price: price,
+		};
+		const res = axios.post("/api/addproduct", payload);
+		console.log("api response : ", res);
 	}
 
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [price, setPrice] = useState(0);
+  const [imageUrls, setImageUrls] = useState<{ url: string }[]>([]);
 
 	return (
 		<div className="p-2">
@@ -52,6 +55,23 @@ export default function AddProduct() {
 							onChange={(e) => setPrice(parseInt(e.target.value))}
 						/>
 					</div>
+					<div className="mt-10 border-2 border-dotted border-slate-700 py-8 flex flex-col items-center">
+						<UploadButton<OurFileRouter>
+							endpoint="imageUploader"
+							onClientUploadComplete={(res) => {
+								console.log("res : ", res);
+								if (res) {
+									const addedUrls = res.map((file) => ({ url: file.fileUrl }));
+									setImageUrls(addedUrls);
+								}
+								alert("Upload Completed");
+							}}
+						/>
+						{imageUrls.length > 0 && (
+							<h1 className="mt-5">{imageUrls.length} images uploaded ✅</h1>
+						)}
+					</div>
+
 					<button
 						className="rounded-md px-4 py-2 bg-yellow-400 w-full mt-5"
 						onClick={handleSubmit}

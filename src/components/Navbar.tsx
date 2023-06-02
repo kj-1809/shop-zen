@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 const Navbar = () => {
 	return (
@@ -17,11 +18,18 @@ const Navbar = () => {
 						Cart
 					</h1>
 				</Link>
-				<Link href="/sign-in">
-					<h1 className="sm:mr-4 mr-2 m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
-						Login
-					</h1>
-				</Link>
+				<SignedIn>
+					<div className= "mr-2 sm:mr-4 m-1">
+						<UserButton />
+					</div>
+				</SignedIn>
+				<SignedOut>
+					<Link href="/sign-in">
+						<h1 className="sm:mr-4 mr-2 m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium">
+							Login
+						</h1>
+					</Link>
+				</SignedOut>
 			</div>
 		</nav>
 	);

@@ -15,20 +15,20 @@ export async function POST(request: Request) {
 			}
 		);
 	}
-	// const user = await prisma.user.findFirst({
-	// 	where: {
-	// 		id: userId,
-	// 	},
-	// });
+	const user = await prisma.user.findFirst({
+		where: {
+			id: userId,
+		},
+	});
 
-	// if (!user || user.role !== "ADMIN") {
-	// 	return NextResponse.json(
-	// 		{ error: "UNAUTHORIZED" },
-	// 		{
-	// 			status: 401,
-	// 		}
-	// 	);
-	// }
+	if (!user || user.role !== "ADMIN") {
+		return NextResponse.json(
+			{ error: "UNAUTHORIZED" },
+			{
+				status: 401,
+			}
+		);
+	}
 
 	// if user id authorized then do the following
 	const body = await request.json();
