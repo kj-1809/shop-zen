@@ -3,7 +3,10 @@ import "./globals.css";
 import { Montserrat, Covered_By_Your_Grace } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({
+	subsets: ["latin"],
+	variable: "--font-montserrat",
+});
 const coveredByYourGrace = Covered_By_Your_Grace({
 	subsets: ["latin"],
 	weight: ["400"],
@@ -24,7 +27,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<body
-					className={`${montserrat.className} ${coveredByYourGrace.variable}`}
+					className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
 				>
 					<Navbar />
 					{children}

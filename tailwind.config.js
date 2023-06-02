@@ -14,6 +14,7 @@ module.exports = {
 			},
 			fontFamily: {
 				grace: ["var(--font-grace)"],
+				montserrat: ["var(--font-montserrat)"],
 			},
 		},
 	},

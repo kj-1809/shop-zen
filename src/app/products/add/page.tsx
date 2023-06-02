@@ -1,9 +1,18 @@
 "use client";
 import axios from "axios";
 import { useState } from "react";
+import type { AddProductApiRequest } from "@/lib/validators/api-request";
+
 export default function AddProduct() {
+
 	function handleSubmit() {
-		// axios.post()
+		const payload : AddProductApiRequest = {
+			name : name,
+			description : description,
+			price : price
+		}
+		const res = axios.post("/api/addproduct" , payload)
+		console.log("api response : " , res)
 	}
 
 	const [name, setName] = useState("");

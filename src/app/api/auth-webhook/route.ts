@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/utils/lib/prisma";
+import prisma from "@/lib/utils/prisma";
 
 export async function POST(request: Request) {
 	console.log("Endpoint HIT");
