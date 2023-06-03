@@ -46,7 +46,7 @@ export default async function ProductDetail({
 			</div>
 			<div className="p-2">
 				<h1 className="font-semibold text-3xl mb-5">Reviews</h1>
-				<ReviewInput />
+				<ReviewInput productId={params.productId}/>
 				<Review username="" reviewText="" />
 			</div>
 		</div>

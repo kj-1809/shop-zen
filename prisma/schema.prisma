@@ -39,7 +39,7 @@ model ImageUrl {
   url String @id
 
   productId String
-  Product   Product? @relation(fields: [productId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id] , onDelete:  Cascade)
 
   @@index([productId])
 }
@@ -56,10 +56,10 @@ model CartItem {
   quantity Int
 
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id] , onDelete: Cascade)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
 
   @@index([productId])
   @@index([userId])
@@ -67,14 +67,13 @@ model CartItem {
 
 model Review {
   id          String @id @default(cuid())
-  title       String
   description String @db.Text
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
 
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id] , onDelete: Cascade)
 
   @@index([userId])
   @@index([productId])

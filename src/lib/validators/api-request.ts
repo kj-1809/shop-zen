@@ -7,4 +7,10 @@ export const addProductValidator = z.object({
 	imageUrls: z.array(z.object({ url: z.string() })),
 });
 
+export const addReviewValidator = z.object({
+	reviewText : z.string().min(3),
+	productId : z.string()
+})
+
 export type AddProductApiRequest = z.infer<typeof addProductValidator>;
+export type AddReviewApiRequest = z.infer<typeof addReviewValidator>;
