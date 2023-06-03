@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { Montserrat, Covered_By_Your_Grace } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const montserrat = Montserrat({
@@ -29,6 +30,7 @@ export default function RootLayout({
 				<body
 					className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
 				>
+					<Toaster position="bottom-center" />
 					<Navbar />
 					{children}
 				</body>

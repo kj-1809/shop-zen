@@ -49,6 +49,9 @@ export async function POST(request: Request) {
 			name: body.name,
 			description: body.description,
 			price: body.price,
+			imageUrls : {
+				create : body.imageUrls
+			}		
 		},
 	});
 

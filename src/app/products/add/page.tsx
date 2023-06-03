@@ -2,25 +2,33 @@
 import axios from "axios";
 import { useState } from "react";
 import type { AddProductApiRequest } from "@/lib/validators/api-request";
-import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "../../api/uploadthing/core";
-import "@uploadthing/react/styles.css"; 
+import "@uploadthing/react/styles.css";
+import { UploadButton } from "@uploadthing/react";
+import { toast } from "react-hot-toast";
 
 export default function AddProduct() {
-	function handleSubmit() {
+	async function handleSubmit() {
 		const payload: AddProductApiRequest = {
 			name: name,
 			description: description,
 			price: price,
+			imageUrls: imageUrls,
 		};
-		const res = axios.post("/api/addproduct", payload);
-		console.log("api response : ", res);
+		try {
+			const res = await axios.post("/api/addproduct", payload);
+			console.log(res)
+			toast.success("Successfully added product !")
+		} catch (e) {
+			console.log("error occured : ", e);
+			toast.error("Some error occured !")
+		}
 	}
 
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [price, setPrice] = useState(0);
-  const [imageUrls, setImageUrls] = useState<{ url: string }[]>([]);
+	const [imageUrls, setImageUrls] = useState<{ url: string }[]>([]);
 
 	return (
 		<div className="p-2">
@@ -65,6 +73,11 @@ export default function AddProduct() {
 									setImageUrls(addedUrls);
 								}
 								alert("Upload Completed");
+							}}
+							onUploadError={(error: Error) => {
+								// Do something with the error.
+								console.log(error);
+								alert(`ERROR! ${error.message}`);
 							}}
 						/>
 						{imageUrls.length > 0 && (
