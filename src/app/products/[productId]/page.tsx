@@ -38,7 +38,7 @@ export default async function ProductDetail({
 					<p className="mt-1 font-medium">{product?.description}</p>
 					<h2 className="mt-10 font-bold text-4xl">Rs. {product?.price}</h2>
 					<div className="flex justify-center">
-						<button className="px-5 py-2 bg-yellow-400 rounded mt-10 w-full animate-pulse">
+						<button className="px-5 py-2 bg-yellow-400 rounded mt-10 w-full">
 							Add to Cart
 						</button>
 					</div>
