@@ -15,10 +15,10 @@ const Navbar = () => {
 			</Link>
 			<div className="flex items-center">
 				<Link href="/cart">
-					<h1 className="m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium flex items-center">
+					<div className="m-1 sm:m-2 rounded-md py-2 px-4 hover:bg-slate-100 duration-100 font-medium flex items-center">
 						<AiOutlineShoppingCart className="text-xl"/> 
 						<h1 className = "ml-2">Cart</h1>
-					</h1>
+					</div>
 				</Link>
 				<SignedIn>
 					<div className="mr-2 sm:mr-4 m-1">

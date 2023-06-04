@@ -18,7 +18,9 @@ export const ReviewInput: React.FC<Props> = ({productId}) => {
 			productId
 		};
 		try {
+			console.log(payload)
 			const res = await axios.post("/api/addreview", payload);
+			console.log(res)
       toast.success("Review added successfully !")
 		} catch (e) {
 			toast.error("Some error occured !");

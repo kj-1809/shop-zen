@@ -2,10 +2,14 @@ import prisma from "@/lib/utils/prisma";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { addReviewValidator } from "@/lib/validators/api-request";
+
 export async function POST(request: Request) {
+	console.log("request is being executed mate")
+
 	const body = await request.json();
 
 	const { userId } = auth();
+	console.log("userid : " ,userId)
 
 	if (!userId) {
 		return NextResponse.json(
@@ -15,7 +19,6 @@ export async function POST(request: Request) {
 			}
 		);
 	}
-	console.log("user id . :", userId);
 
 	const validation = addReviewValidator.safeParse(body);
 	if (!validation.success) {

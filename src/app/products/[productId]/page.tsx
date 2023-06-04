@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Review } from "@/components/Review";
 import prisma from "@/lib/utils/prisma";
 import { ReviewInput } from "@/components/ReviewInput";
+import ProductSearch from "../page";
+import { addReviewValidator } from "@/lib/validators/api-request";
 
 export default async function ProductDetail({
 	params,
@@ -14,7 +16,15 @@ export default async function ProductDetail({
 		},
 		include: {
 			imageUrls: true,
-			reviews: true,
+			reviews: {
+				include: {
+					user: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			},
 		},
 	});
 
@@ -46,8 +56,14 @@ export default async function ProductDetail({
 			</div>
 			<div className="p-2">
 				<h1 className="font-semibold text-3xl mb-5">Reviews</h1>
-				<ReviewInput productId={params.productId}/>
-				<Review username="" reviewText="" />
+				<ReviewInput productId={params.productId} />
+				{product?.reviews.map((review) => (
+					<Review
+						username={review.user.name}
+						reviewText={review.description}
+						key={review.id}
+					/>
+				))}
 			</div>
 		</div>
 	);
