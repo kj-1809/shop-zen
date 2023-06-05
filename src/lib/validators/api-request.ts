@@ -12,5 +12,11 @@ export const addReviewValidator = z.object({
 	productId : z.string()
 })
 
+export const addToCartValidator = z.object({
+	productId : z.string(),
+	quantityModifier : z.number()
+})
+
 export type AddProductApiRequest = z.infer<typeof addProductValidator>;
 export type AddReviewApiRequest = z.infer<typeof addReviewValidator>;
+export type AddToCartApiRequest = z.infer<typeof addToCartValidator>;
