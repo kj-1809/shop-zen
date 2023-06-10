@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CartItem } from "@prisma/client";
 
 export const addProductValidator = z.object({
 	name: z.string(),
@@ -8,15 +9,20 @@ export const addProductValidator = z.object({
 });
 
 export const addReviewValidator = z.object({
-	reviewText : z.string().min(3),
-	productId : z.string()
-})
+	reviewText: z.string().min(3),
+	productId: z.string(),
+});
 
 export const addToCartValidator = z.object({
-	productId : z.string(),
-	quantityModifier : z.number()
-})
+	productId: z.string(),
+	quantityModifier: z.number(),
+});
+
+export const checkoutSessionValidator = z.object({});
 
 export type AddProductApiRequest = z.infer<typeof addProductValidator>;
 export type AddReviewApiRequest = z.infer<typeof addReviewValidator>;
 export type AddToCartApiRequest = z.infer<typeof addToCartValidator>;
+export type CheckoutSessionApiRequest = z.infer<
+	typeof checkoutSessionValidator
+>;

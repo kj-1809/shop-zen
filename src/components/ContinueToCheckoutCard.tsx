@@ -1,13 +1,29 @@
 "use client";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { CartItem, ImageUrl } from "@prisma/client";
 
-import Link from "next/link";
+interface Props {
+	cartItems: (CartItem & {
+		product: {
+			name: string;
+			imageUrls: ImageUrl[];
+			price: number;
+		};
+	})[];
+}
 
-// import { useRouter } from "next/router";
-
-export const ContinueToCheckoutCard = () => {
-	// const router = useRouter()
-	function handleSubmit() {
-		// router.push("/checkout/info")
+export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
+	async function handleSubmit() {
+		try {
+			const { data: url } = await axios.post("/api/checkout-session", {
+				cartItems,
+			});
+			console.log("url : ", url);
+			window.location.href = url.paymentLink
+		} catch (err) {
+			console.log(err);
+		}
 	}
 	return (
 		<div className="rounded-md shadow-md p-2">
@@ -23,14 +39,12 @@ export const ContinueToCheckoutCard = () => {
 					<h1>Rs. 20,098</h1>
 				</div>
 			</div>
-			<Link href="/checkout/info">
-				<button
-					className="px-4 py-2 bg-yellow-400 w-full rounded-md"
-					onClick={handleSubmit}
-				>
-					Continue to Checkout
-				</button>
-			</Link>
+			<button
+				className="px-4 py-2 bg-yellow-400 w-full rounded-md"
+				onClick={handleSubmit}
+			>
+				Continue to Checkout
+			</button>
 		</div>
 	);
 };

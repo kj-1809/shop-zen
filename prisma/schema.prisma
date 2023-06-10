@@ -21,6 +21,7 @@ model User {
 
   cart    CartItem[]
   reviews Review[]
+  orders Order[]
 }
 
 model Product {
@@ -79,4 +80,21 @@ model Review {
 
   @@index([userId])
   @@index([productId])
+}
+
+model Order {
+  id String @id @default(cuid())
+  total Int 
+  paymentStatus PaymentStatus @default(PENDING)
+  
+  userId String
+  user User @relation(fields: [userId] , references: [id] , onDelete: Cascade)
+
+  @@index([userId])
+}
+
+
+enum PaymentStatus {
+  PENDING
+  SUCCESSFUL
 }

@@ -35,7 +35,7 @@ export default async function Cart() {
 				<h1 className="font-semibold text-4xl mt-5 ml-5">Cart</h1>
 				{cartItems.map((cartItem) => (
 					<CartItemCard
-						imgUrl={cartItem.product.imageUrls[0].url}
+						imgUrl={cartItem.product.imageUrls[0]?.url || ""}
 						key={cartItem.id}
 						name={cartItem.product.name}
 						price={cartItem.product.price}
@@ -44,7 +44,7 @@ export default async function Cart() {
 				))}
 			</div>
 			<div className="col-span-2">
-				<ContinueToCheckoutCard />
+				<ContinueToCheckoutCard cartItems = {cartItems}/>
 			</div>
 		</div>
 	);
