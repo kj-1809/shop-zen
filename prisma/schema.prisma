@@ -8,11 +8,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum UserRole {
-  ADMIN
-  USER
-}
-
 model User {
   id    String   @id @default(cuid())
   name  String
@@ -21,7 +16,7 @@ model User {
 
   cart    CartItem[]
   reviews Review[]
-  orders Order[]
+  orders  Order[]
 }
 
 model Product {
@@ -34,13 +29,14 @@ model Product {
   imageUrls ImageUrl[]
   cartItems CartItem[]
   reviews   Review[]
+  orders    OrderItem[]
 }
 
 model ImageUrl {
   url String @id
 
   productId String
-  Product   Product? @relation(fields: [productId], references: [id] , onDelete:  Cascade)
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
@@ -57,15 +53,14 @@ model CartItem {
   quantity Int
 
   productId String
-  product   Product @relation(fields: [productId], references: [id] , onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([productId, userId])
   @@index([productId])
   @@index([userId])
-
-  @@unique([productId , userId])
 }
 
 model Review {
@@ -73,28 +68,57 @@ model Review {
   description String @db.Text
 
   userId String
-  user   User   @relation(fields: [userId], references: [id] , onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   productId String
-  product   Product @relation(fields: [productId], references: [id] , onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([productId])
 }
 
 model Order {
-  id String @id @default(cuid())
-  total Int 
+  id            String        @id @default(cuid())
+  total         Int?
   paymentStatus PaymentStatus @default(PENDING)
-  
+  orderStatus   OrderStatus   @default(PROCESSING)
+  address       String?       @db.Text
+  paymentId     String?
+
   userId String
-  user User @relation(fields: [userId] , references: [id] , onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items OrderItem[]
 
   @@index([userId])
 }
 
+model OrderItem {
+  id       String @id @default(cuid())
+  quantity Int
+
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([productId])
+}
 
 enum PaymentStatus {
   PENDING
   SUCCESSFUL
+  FAILED
+}
+
+enum OrderStatus {
+  PROCESSING
+  FULFILLED
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }

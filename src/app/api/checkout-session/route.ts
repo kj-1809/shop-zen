@@ -1,10 +1,12 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
 
 export async function POST(request: Request) {
 	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 		apiVersion: "2022-11-15",
 	});
+	const { userId } = auth();
 
 	const data = await request.json();
 	const line_items = data.cartItems.map((cartItem: any) => {
@@ -30,12 +32,15 @@ export async function POST(request: Request) {
 			mode: "payment",
 			success_url: "http://localhost:3000/checkout/orderplaced",
 			cancel_url: "http://localhost:3000/checkout/orderplaced?status=false",
-			shipping_address_collection : {
-				allowed_countries : ["IN" , "US"] 
-			} 
+			shipping_address_collection: {
+				allowed_countries: ["IN", "US"],
+			},
+			metadata: {
+				userId: userId,
+			},
 		});
 		return NextResponse.json(
-			{ paymentLink: session.url },
+			{ paymentLink: session.url, session },
 			{
 				status: 200,
 			}

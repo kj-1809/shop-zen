@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/router";
 import axios from "axios";
 import { CartItem, ImageUrl } from "@prisma/client";
 
@@ -16,15 +15,21 @@ interface Props {
 export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
 	async function handleSubmit() {
 		try {
-			const { data: url } = await axios.post("/api/checkout-session", {
+			const { data } = await axios.post("/api/checkout-session", {
 				cartItems,
 			});
-			console.log("url : ", url);
-			window.location.href = url.paymentLink
+			console.log("data : ", data);
+			window.location.href = data.paymentLink;
 		} catch (err) {
 			console.log(err);
 		}
 	}
+
+	let total = cartItems.reduce((currentTotal, currentValue) => {
+		return currentTotal + currentValue.product.price * currentValue.quantity;
+	}, 0);
+	let delivery = 100;
+
 	return (
 		<div className="rounded-md shadow-md p-2">
 			<div className="flex justify-between">
@@ -34,9 +39,9 @@ export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
 					<h1 className="font-semibold">Grand Total</h1>
 				</div>
 				<div className="p-2 mr-5">
-					<h1>Rs. 19,999</h1>
-					<h1>Rs. 99</h1>
-					<h1>Rs. 20,098</h1>
+					<h1>Rs. {total.toLocaleString("en-IN")}</h1>
+					<h1>Rs. {delivery.toLocaleString("en-IN")}</h1>
+					<h1>Rs. {(total + delivery).toLocaleString("en-IN")}</h1>
 				</div>
 			</div>
 			<button

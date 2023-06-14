@@ -26,7 +26,7 @@ export const ProductCard: React.FC<Props> = ({
 					/>
 				</div>
 				<h1 className="font-medium text-lg mt-3">{name}</h1>
-				<h1 className="font-semibold text-xl">Rs. {price}</h1>
+				<h1 className="font-semibold text-xl">Rs. {price.toLocaleString("en-IN")}</h1>
 			</div>
 		</Link>
 	);

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { RiDeleteBin5Line } from "react-icons/ri";
+import { DeleteCartItemButton } from "./DeleteCartItemButton";
 
 interface Props {
 	imgUrl: string;
@@ -35,10 +35,12 @@ export const CartItemCard: React.FC<Props> = ({
 						value={quantity}
 						disabled={true}
 					/>
-					<h1 className="font-semibold text-2xl mb-1">Rs. {price}</h1>
+					<h1 className="font-semibold text-2xl mb-1">
+						Rs. {price.toLocaleString("en-IN")}
+					</h1>
 				</div>
 				<div className="col-span-1 flex justify-center items-center">
-					<RiDeleteBin5Line className="cursor-pointer text-red-400 text-2xl" />
+					<DeleteCartItemButton />
 				</div>
 			</div>
 		</div>
