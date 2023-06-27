@@ -40,6 +40,7 @@ export default async function Cart() {
 						name={cartItem.product.name}
 						price={cartItem.product.price}
 						quantity={cartItem.quantity}
+						id = {cartItem.id}
 					/>
 				))}
 			</div>

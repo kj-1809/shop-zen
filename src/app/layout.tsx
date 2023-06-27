@@ -3,6 +3,8 @@ import "./globals.css";
 import { Montserrat, Covered_By_Your_Grace } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+import { HomepageLoading } from "@/components/HomepageLoading";
 
 const montserrat = Montserrat({
 	subsets: ["latin"],
@@ -31,8 +33,12 @@ export default function RootLayout({
 					className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
 				>
 					<Toaster position="bottom-center" />
-					<Navbar />
-					{children}
+					<Suspense fallback={<div className = "h-16 bg-gray-300 animate-pulse"></div>}>
+						<Navbar />
+					</Suspense>
+					<Suspense fallback={<HomepageLoading />}>
+						{children}
+					</Suspense>
 				</body>
 			</html>
 		</ClerkProvider>

@@ -18,6 +18,10 @@ export const addToCartValidator = z.object({
 	quantityModifier: z.number(),
 });
 
+export const deleteCartItemValidator = z.object({
+	id : z.string()
+})
+
 export const checkoutSessionValidator = z.object({});
 
 export type AddProductApiRequest = z.infer<typeof addProductValidator>;
@@ -26,3 +30,4 @@ export type AddToCartApiRequest = z.infer<typeof addToCartValidator>;
 export type CheckoutSessionApiRequest = z.infer<
 	typeof checkoutSessionValidator
 >;
+export type DeleteCartItemApiRequest = z.infer<typeof deleteCartItemValidator>;

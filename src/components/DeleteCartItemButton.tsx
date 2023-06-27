@@ -1,10 +1,24 @@
-"use client"
+"use client";
 import { RiDeleteBin5Line } from "react-icons/ri";
-export const DeleteCartItemButton = () => {
+import axios from "axios";
+import { DeleteCartItemApiRequest } from "@/lib/validators/api-request";
 
-  function handleDelete(){
-    console.log("delete triggered !")
-  }
+interface Props {
+	id: string;
+}
+
+export const DeleteCartItemButton: React.FC<Props> = ({ id }) => {
+	async function handleDelete() {
+		console.log("delete triggered !");
+		const payload: DeleteCartItemApiRequest = {
+			id: id,
+		};
+		try {
+			const data = await axios.post("/api/delete-cart-item", payload);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	return (
 		<button onClick={handleDelete}>

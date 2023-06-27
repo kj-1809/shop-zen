@@ -1,9 +1,14 @@
 import { ProductCard } from "@/components/ProductCard";
 import { Carousel } from "@/components/Carousel";
-import Image from "next/image";
 import prisma from "@/lib/utils/prisma";
 
+// function wait(duration : number){
+// 	return new Promise((resolve) => {
+// 		setTimeout(resolve , duration)
+// 	})
+// }
 export default async function Home() {
+
 	const products = await prisma.product.findMany({
 		include: {
 			imageUrls: true,
@@ -24,7 +29,7 @@ export default async function Home() {
 				{products.map((product) => (
 					<ProductCard
 						key={product.id}
-						id = {product.id}
+						id={product.id}
 						name={product.name}
 						price={product.price}
 						imgUrl={

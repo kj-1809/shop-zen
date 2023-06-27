@@ -6,6 +6,7 @@ interface Props {
 	name: string;
 	price: number;
 	quantity: number;
+	id : string
 }
 
 export const CartItemCard: React.FC<Props> = ({
@@ -13,6 +14,7 @@ export const CartItemCard: React.FC<Props> = ({
 	name,
 	price,
 	quantity,
+	id
 }) => {
 	return (
 		<div className="p-2 shadow-md rounded-md m-4">
@@ -40,7 +42,7 @@ export const CartItemCard: React.FC<Props> = ({
 					</h1>
 				</div>
 				<div className="col-span-1 flex justify-center items-center">
-					<DeleteCartItemButton />
+					<DeleteCartItemButton id = {id}/>
 				</div>
 			</div>
 		</div>
