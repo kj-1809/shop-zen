@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Suspense } from "react";
 import { HomepageLoading } from "@/components/HomepageLoading";
+import Providers from "@/components/Providers";
 
 const montserrat = Montserrat({
 	subsets: ["latin"],
@@ -32,13 +33,15 @@ export default function RootLayout({
 				<body
 					className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
 				>
-					<Toaster position="bottom-center" />
-					<Suspense fallback={<div className = "h-16 bg-gray-300 animate-pulse"></div>}>
-						<Navbar />
-					</Suspense>
-					<Suspense fallback={<HomepageLoading />}>
-						{children}
-					</Suspense>
+					<Providers>
+						<Toaster position="bottom-center" />
+						<Suspense
+							fallback={<div className="h-16 bg-gray-300 animate-pulse"></div>}
+						>
+							<Navbar />
+						</Suspense>
+						<Suspense fallback={<HomepageLoading />}>{children}</Suspense>
+					</Providers>
 				</body>
 			</html>
 		</ClerkProvider>
