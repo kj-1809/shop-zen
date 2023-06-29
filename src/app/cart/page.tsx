@@ -37,6 +37,7 @@ export default async function Cart() {
 		<div className="p-2 grid grid-cols-1 md:grid-cols-5">
 			<div className="col-span-3">
 				<h1 className="font-semibold text-4xl mt-5 ml-5">Cart</h1>
+				{!cartItems && <h1>Cart is empty !</h1>}
 				{cartItems.map((cartItem) => (
 					<CartItemCard
 						imgUrl={cartItem.product.imageUrls[0]?.url || ""}

@@ -31,25 +31,27 @@ export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
 	let delivery = 100;
 
 	return (
-		<div className="rounded-md shadow-md p-2">
-			<div className="flex justify-between">
-				<div className="p-2">
-					<h1 className="font-semibold">Total</h1>
-					<h1 className="font-semibold">Delivery</h1>
-					<h1 className="font-semibold">Grand Total</h1>
+		cartItems && (
+			<div className="rounded-md shadow-md p-2">
+				<div className="flex justify-between">
+					<div className="p-2">
+						<h1 className="font-semibold">Total</h1>
+						<h1 className="font-semibold">Delivery</h1>
+						<h1 className="font-semibold">Grand Total</h1>
+					</div>
+					<div className="p-2 mr-5">
+						<h1>Rs. {total.toLocaleString("en-IN")}</h1>
+						<h1>Rs. {delivery.toLocaleString("en-IN")}</h1>
+						<h1>Rs. {(total + delivery).toLocaleString("en-IN")}</h1>
+					</div>
 				</div>
-				<div className="p-2 mr-5">
-					<h1>Rs. {total.toLocaleString("en-IN")}</h1>
-					<h1>Rs. {delivery.toLocaleString("en-IN")}</h1>
-					<h1>Rs. {(total + delivery).toLocaleString("en-IN")}</h1>
-				</div>
+				<button
+					className="px-4 py-2 bg-yellow-400 w-full rounded-md"
+					onClick={handleSubmit}
+				>
+					Continue to Checkout
+				</button>
 			</div>
-			<button
-				className="px-4 py-2 bg-yellow-400 w-full rounded-md"
-				onClick={handleSubmit}
-			>
-				Continue to Checkout
-			</button>
-		</div>
+		)
 	);
 };
