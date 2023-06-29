@@ -1,33 +1,45 @@
 "use client";
 
 import { AddToCartApiRequest } from "@/lib/validators/api-request";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { AiOutlineLoading } from "react-icons/ai";
 
 interface Props {
 	productId: string;
 }
 
 export const AddToCartForm: React.FC<Props> = ({ productId }) => {
-	async function handleAddToCart() {
-		const payload: AddToCartApiRequest = {
-			productId : productId,
-			quantityModifier: 1,
-		};
-		try {
-			await axios.post("/api/add-product-to-cart" , payload);
-			toast.success("Successfully added product to cart!");
-		} catch (e) {
-			console.log("error : ", e);
-			toast.error("Some error occured!");
-		}
-	}
+	const { isLoading, mutate: handleAddToCart } = useMutation({
+		mutationFn: async () => {
+			const payload: AddToCartApiRequest = {
+				productId: productId,
+				quantityModifier: 1,
+			};
+			return await axios.post("/api/add-product-to-cart", payload);
+		},
+		onSuccess: (data) => {
+			console.log("data in succ", data);
+			toast.success("Product Added to Cart Successfully");
+		},
+		onError: (error) => {
+			console.log(error);
+			toast.error("Some error occured !");
+		},
+	});
+
 	return (
 		<button
 			className="px-5 py-2 bg-yellow-400 rounded mt-10 w-full"
-			onClick={handleAddToCart}
+			onClick={() => {
+				handleAddToCart();
+			}}
 		>
-			Add to Cart
+			<div className="flex justify-center items-center">
+				{isLoading && <AiOutlineLoading className="animate-spin mr-2" />}
+				Add to Cart
+			</div>
 		</button>
 	);
 };
