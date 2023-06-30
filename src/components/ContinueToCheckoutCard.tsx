@@ -1,6 +1,9 @@
 "use client";
 import axios from "axios";
 import { CartItem, ImageUrl } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { AiOutlineLoading } from "react-icons/ai";
 
 interface Props {
 	cartItems: (CartItem & {
@@ -13,17 +16,21 @@ interface Props {
 }
 
 export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
-	async function handleSubmit() {
-		try {
+	const { mutate: handleSubmit, isLoading } = useMutation({
+		mutationFn: async () => {
 			const { data } = await axios.post("/api/checkout-session", {
 				cartItems,
 			});
-			console.log("data : ", data);
+			return data;
+		},
+		onSuccess: (data) => {
 			window.location.href = data.paymentLink;
-		} catch (err) {
-			console.log(err);
-		}
-	}
+		},
+		onError: (err) => {
+			toast.error("Some error occured !");
+			console.log("error : ", err);
+		},
+	});
 
 	let total = cartItems.reduce((currentTotal, currentValue) => {
 		return currentTotal + currentValue.product.price * currentValue.quantity;
@@ -47,9 +54,14 @@ export const ContinueToCheckoutCard: React.FC<Props> = ({ cartItems }) => {
 				</div>
 				<button
 					className="px-4 py-2 bg-yellow-400 w-full rounded-md"
-					onClick={handleSubmit}
+					onClick={() => {
+						handleSubmit();
+					}}
 				>
-					Continue to Checkout
+					<div className="flex justify-center items-center">
+						{isLoading && <AiOutlineLoading className="animate-spin mr-2" />}
+						Continue to Checkout
+					</div>
 				</button>
 			</div>
 		)
