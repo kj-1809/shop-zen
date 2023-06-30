@@ -2,9 +2,9 @@ import { z } from "zod";
 import { CartItem } from "@prisma/client";
 
 export const addProductValidator = z.object({
-	name: z.string(),
-	description: z.string(),
-	price: z.number(),
+	name: z.string().min(5).max(150),
+	description: z.string().min(5),
+	price: z.number().gte(1),
 	imageUrls: z.array(z.object({ url: z.string() })),
 });
 

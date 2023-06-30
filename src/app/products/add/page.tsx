@@ -6,24 +6,31 @@ import { OurFileRouter } from "../../api/uploadthing/core";
 import "@uploadthing/react/styles.css";
 import { UploadButton } from "@uploadthing/react";
 import { toast } from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export default function AddProduct() {
-	async function handleSubmit() {
-		const payload: AddProductApiRequest = {
-			name: name,
-			description: description,
-			price: price,
-			imageUrls: imageUrls,
-		};
-		try {
-			const res = await axios.post("/api/addproduct", payload);
-			console.log(res)
-			toast.success("Successfully added product !")
-		} catch (e) {
-			console.log("error occured : ", e);
-			toast.error("Some error occured !")
-		}
-	}
+	const { isLoading, mutate: handleSubmit } = useMutation({
+		mutationFn: async () => {
+			const payload: AddProductApiRequest = {
+				name: name,
+				description: description,
+				price: price,
+				imageUrls: imageUrls,
+			};
+			// throw new Error()
+			console.log("start")
+			const {data} = await axios.post("/api/addproduct", payload);
+			console.log("dataaa : " , data)
+		},
+		onSuccess: () => {
+			toast.success("Successfully added product !");
+		},
+		onError: (e) => {
+			console.log("error occured : " , e.response.data.error);
+			toast.error(`Some error occured : ${e.response.data.error}`);
+		},
+	});
 
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
@@ -87,9 +94,14 @@ export default function AddProduct() {
 
 					<button
 						className="rounded-md px-4 py-2 bg-yellow-400 w-full mt-5"
-						onClick={handleSubmit}
+						onClick={() => {
+							handleSubmit();
+						}}
 					>
-						Add product
+						<div className="flex justify-center items-center">
+							{isLoading && <AiOutlineLoading className="animate-spin mr-2" />}
+							Create Product
+						</div>
 					</button>
 				</div>
 			</div>
