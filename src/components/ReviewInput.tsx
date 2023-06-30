@@ -4,28 +4,37 @@ import { useState } from "react";
 import axios from "axios";
 import { AddReviewApiRequest } from "@/lib/validators/api-request";
 import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { AiOutlineLoading } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import { startTransition } from "react";
 
-interface Props{
-	productId : string
+interface Props {
+	productId: string;
 }
 
-export const ReviewInput: React.FC<Props> = ({productId}) => {
+export const ReviewInput: React.FC<Props> = ({ productId }) => {
 	const [reviewText, setReviewText] = useState("");
+	const router = useRouter();
 
-	async function handleReviewSubmit() {
-		const payload: AddReviewApiRequest = {
-			reviewText,
-			productId
-		};
-		try {
-			console.log(payload)
-			const res = await axios.post("/api/addreview", payload);
-			console.log(res)
-      toast.success("Review added successfully !")
-		} catch (e) {
+	const { isLoading, mutate: handleReviewSubmit } = useMutation({
+		mutationFn: async () => {
+			const payload: AddReviewApiRequest = {
+				reviewText,
+				productId,
+			};
+			await axios.post("/api/addreview", payload);
+		},
+		onSuccess: () => {
+			toast.success("Review added successfully !");
+			startTransition(() => {
+				router.refresh();
+			});
+		},
+		onError: () => {
 			toast.error("Some error occured !");
-		}
-	}
+		},
+	});
 
 	return (
 		<div className="w-full mt-5">
@@ -37,9 +46,14 @@ export const ReviewInput: React.FC<Props> = ({productId}) => {
 			/>
 			<button
 				className="px-4 py-2 rounded-md bg-yellow-400"
-				onClick={handleReviewSubmit}
+				onClick={() => {
+					handleReviewSubmit();
+				}}
 			>
-				Post Review
+				<div className="flex justify-center items-center">
+					{isLoading && <AiOutlineLoading className="animate-spin mr-2" />}
+					Post Review
+				</div>
 			</button>
 		</div>
 	);
