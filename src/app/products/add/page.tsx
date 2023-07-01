@@ -26,7 +26,7 @@ export default function AddProduct() {
 		onSuccess: () => {
 			toast.success("Successfully added product !");
 		},
-		onError: (e) => {
+		onError: (e : any) => {
 			console.log("error occured : " , e.response.data.error);
 			toast.error(`Some error occured : ${e.response.data.error}`);
 		},
