@@ -19,10 +19,12 @@ export async function POST(request: Request) {
   }
 
   const validation = addReviewValidator.safeParse(body);
+
   if (!validation.success) {
     return NextResponse.json(
       {
-        code: "UNAUTHORIZED",
+        code: "Invalid Data",
+        issues: validation.error,
       },
       {
         status: 400,

@@ -38,7 +38,7 @@ export default async function Cart() {
         ))}
       </div>
       <div className='col-span-2'>
-        <ContinueToCheckoutCard cartItems={cartItems} />
+        {cartItems && <ContinueToCheckoutCard cartItems={cartItems} />}
       </div>
     </div>
   );
