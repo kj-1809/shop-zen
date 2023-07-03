@@ -2,44 +2,46 @@
 
 import { AddToCartApiRequest } from "@/lib/validators/api-request";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineLoading } from "react-icons/ai";
 
 interface Props {
-	productId: string;
+  productId: string;
 }
 
 export const AddToCartForm: React.FC<Props> = ({ productId }) => {
-	const { isLoading, mutate: handleAddToCart } = useMutation({
-		mutationFn: async () => {
-			const payload: AddToCartApiRequest = {
-				productId: productId,
-				quantityModifier: 1,
-			};
-			return await axios.post("/api/add-product-to-cart", payload);
-		},
-		onSuccess: (data) => {
-			console.log("data in succ", data);
-			toast.success("Product Added to Cart Successfully");
-		},
-		onError: (error) => {
-			console.log(error);
-			toast.error("Some error occured !");
-		},
-	});
+  const { isLoading, mutate: handleAddToCart } = useMutation({
+    mutationFn: async () => {
+      const payload: AddToCartApiRequest = {
+        productId: productId,
+        quantityModifier: 1,
+      };
+      return await axios.post("/api/add-product-to-cart", payload);
+    },
+    onSuccess: (data) => {
+      toast.success("Product Added to Cart Successfully");
+    },
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 401) {
+        toast.error("Please login to add products to the Cart !");
+      } else {
+        toast.error("error occured !");
+      }
+    },
+  });
 
-	return (
-		<button
-			className="px-5 py-2 bg-yellow-400 rounded mt-10 w-full"
-			onClick={() => {
-				handleAddToCart();
-			}}
-		>
-			<div className="flex justify-center items-center">
-				{isLoading && <AiOutlineLoading className="animate-spin mr-2" />}
-				Add to Cart
-			</div>
-		</button>
-	);
+  return (
+    <button
+      className='px-5 py-2 bg-yellow-400 rounded mt-10 w-full'
+      onClick={() => {
+        handleAddToCart();
+      }}
+    >
+      <div className='flex justify-center items-center'>
+        {isLoading && <AiOutlineLoading className='animate-spin mr-2' />}
+        Add to Cart
+      </div>
+    </button>
+  );
 };

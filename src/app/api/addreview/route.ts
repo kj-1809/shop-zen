@@ -4,50 +4,47 @@ import { NextResponse } from "next/server";
 import { addReviewValidator } from "@/lib/validators/api-request";
 
 export async function POST(request: Request) {
-	console.log("request is being executed mate")
+  const body = await request.json();
 
-	const body = await request.json();
+  const { userId } = auth();
+  console.log("userid : ", userId);
 
-	const { userId } = auth();
-	console.log("userid : " ,userId)
+  if (!userId) {
+    return NextResponse.json(
+      { code: "UNAUTHORIZED" },
+      {
+        status: 401,
+      }
+    );
+  }
 
-	if (!userId) {
-		return NextResponse.json(
-			{ code: "UNAUTHORIZED" },
-			{
-				status: 401,
-			}
-		);
-	}
+  const validation = addReviewValidator.safeParse(body);
+  if (!validation.success) {
+    return NextResponse.json(
+      {
+        code: "UNAUTHORIZED",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 
-	const validation = addReviewValidator.safeParse(body);
-	if (!validation.success) {
-		return NextResponse.json(
-			{
-				code: "UNAUTHORIZED",
-			},
-			{
-				status: 400,
-			}
-		);
-	}
+  const addedReview = await prisma.review.create({
+    data: {
+      description: body.reviewText,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+      product: {
+        connect: {
+          id: body.productId,
+        },
+      },
+    },
+  });
 
-	const addedReview = await prisma.review.create({
-		data: {
-			description: body.reviewText,
-			user: {
-				connect: {
-					id: userId,
-				},
-			},
-			product: {
-				connect: {
-					id: body.productId,
-				},
-			},
-		},
-	});
-
-	console.log("review : ", addedReview);
-	return NextResponse.json({ code: "SUCCESS" }, { status: 200 });
+  return NextResponse.json({ code: "SUCCESS" }, { status: 200 });
 }
