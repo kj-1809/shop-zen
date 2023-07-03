@@ -24,8 +24,11 @@ export default async function Cart() {
   return (
     <div className='p-2 grid grid-cols-1 md:grid-cols-5'>
       <div className='col-span-3'>
-        <h1 className='font-semibold text-4xl mt-5 ml-5'>Cart</h1>
-        {!cartItems && <h1>Cart is empty !</h1>}
+        {cartItems.length === 0 ? (
+          <h1 className='font-semibold text-2xl mt-5 ml-5'>Cart is empty !</h1>
+        ) : (
+          <h1 className='font-semibold text-4xl mt-5 ml-5'>Cart</h1>
+        )}
         {cartItems.map((cartItem) => (
           <CartItemCard
             imgUrl={cartItem.product.imageUrls[0]?.url || ""}
@@ -38,7 +41,9 @@ export default async function Cart() {
         ))}
       </div>
       <div className='col-span-2'>
-        {cartItems && <ContinueToCheckoutCard cartItems={cartItems} />}
+        {cartItems.length !== 0 && (
+          <ContinueToCheckoutCard cartItems={cartItems} />
+        )}
       </div>
     </div>
   );
