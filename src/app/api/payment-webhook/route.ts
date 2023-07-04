@@ -10,6 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(request: Request) {
   const endpointSecret =
     "whsec_217ca9bac9f103b984e67f7250fe24c49fa3a3757db85ef69697aa58ed4aefdc";
+  const signingSecret = "whsec_Ch6Er6tkCnIW6zJCGznl4fxyRnlS0oph";
 
   const sig = headers().get("stripe-signature");
   let event;
@@ -23,9 +24,10 @@ export async function POST(request: Request) {
 
   console.log("I am here in the payment webhook");
 
+  const data = await request.text();
+
   try {
-    const data = await request.text();
-    event = stripe.webhooks.constructEvent(data, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(data, sig, signingSecret);
     console.log("event : ", event);
 
     switch (event.type) {
@@ -102,6 +104,7 @@ async function createOrder(sessionId: string, userId: string) {
           checkoutSession.payment_status === "paid" ? "SUCCESSFUL" : "PENDING",
       },
     });
+    // empty the user cart as well
 
     // return NextResponse.json({ success: "success" }, { status: 200 });
     return "success";
