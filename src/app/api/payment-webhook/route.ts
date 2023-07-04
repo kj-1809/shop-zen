@@ -32,10 +32,6 @@ export async function POST(request: Request) {
           checkoutSessionCompleted.id,
           checkoutSessionCompleted.metadata.userId
         );
-        return NextResponse.json(
-          { success: "Everything was a success !", response: responseText },
-          { status: 200 }
-        );
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
@@ -70,6 +66,9 @@ async function createOrder(sessionId: string, userId: string) {
   });
 
   // create an order in the db
+
+  console.log("In theh create order space");
+
   try {
     await prisma.order.create({
       data: {
@@ -90,7 +89,7 @@ async function createOrder(sessionId: string, userId: string) {
     });
   } catch (err) {
     console.log(err);
-    return "error";
+    return { code: "ERROR" };
   }
 
   // empty the user cart
@@ -104,5 +103,7 @@ async function createOrder(sessionId: string, userId: string) {
     console.log("Error deleting the cartItems");
   }
 
-  return "success";
+  return {
+    code: "SUCCESS",
+  };
 }
