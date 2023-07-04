@@ -28,10 +28,13 @@ export async function POST(request: Request) {
         const checkoutSessionCompleted: any = event.data.object;
         //create order
         console.log("creating order..");
-        const responseText = await createOrder(
+        const status = await createOrder(
           checkoutSessionCompleted.id,
           checkoutSessionCompleted.metadata.userId
         );
+
+        return NextResponse.json({ success: "ok", status }, { status: 200 });
+
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
@@ -42,8 +45,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-
-  return NextResponse.json({ success: "ok" }, { status: 200 });
 }
 
 async function createOrder(sessionId: string, userId: string) {
