@@ -8,10 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(request: Request) {
-  const endpointSecret =
-    "whsec_217ca9bac9f103b984e67f7250fe24c49fa3a3757db85ef69697aa58ed4aefdc";
   const signingSecret = "whsec_Ch6Er6tkCnIW6zJCGznl4fxyRnlS0oph";
-
   const sig = headers().get("stripe-signature");
   let event;
 
@@ -22,25 +19,21 @@ export async function POST(request: Request) {
     );
   }
 
-  console.log("I am here in the payment webhook");
-
   const data = await request.text();
 
   try {
     event = stripe.webhooks.constructEvent(data, sig, signingSecret);
-    console.log("event : ", event);
-
     switch (event.type) {
       case "checkout.session.completed":
         const checkoutSessionCompleted: any = event.data.object;
         //create order
         console.log("creating order..");
-        const response = createOrder(
+        const responseText = createOrder(
           checkoutSessionCompleted.id,
           checkoutSessionCompleted.metadata.userId
         );
         return NextResponse.json(
-          { success: "Everything was a success !", response },
+          { success: "Everything was a success !", response: responseText },
           { status: 200 }
         );
         break;
@@ -65,13 +58,6 @@ async function createOrder(sessionId: string, userId: string) {
     }
   );
 
-  console.log("checkoutSession : ", checkoutSession);
-  console.log("line_items : ", checkoutSession.line_items);
-  console.log(
-    "price : ",
-    checkoutSession.line_items?.data[0].price?.product.metadata.productId!
-  );
-
   const orderItems = checkoutSession.line_items?.data.map((orderItem: any) => {
     return {
       quantity: orderItem.quantity,
@@ -83,9 +69,7 @@ async function createOrder(sessionId: string, userId: string) {
     };
   });
 
-  console.log("orderItems : ", orderItems);
-  console.log("payment intent : ", checkoutSession.payment_intent);
-
+  // create an order in the db
   try {
     await prisma.order.create({
       data: {
@@ -104,13 +88,21 @@ async function createOrder(sessionId: string, userId: string) {
           checkoutSession.payment_status === "paid" ? "SUCCESSFUL" : "PENDING",
       },
     });
-    // empty the user cart as well
-
-    // return NextResponse.json({ success: "success" }, { status: 200 });
-    return "success";
   } catch (err) {
     console.log(err);
     return "error";
-    // return NextResponse.json({ err }, { status: 500 });
   }
+
+  // empty the user cart
+  try {
+    await prisma.cartItem.deleteMany({
+      where: {
+        userId: userId,
+      },
+    });
+  } catch (err) {
+    console.log("Error deleting the cartItems");
+  }
+
+  return "success";
 }
