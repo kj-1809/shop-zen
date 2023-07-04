@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         const checkoutSessionCompleted: any = event.data.object;
         //create order
         console.log("creating order..");
-        const responseText = createOrder(
+        const responseText = await createOrder(
           checkoutSessionCompleted.id,
           checkoutSessionCompleted.metadata.userId
         );
