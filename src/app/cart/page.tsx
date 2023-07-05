@@ -3,6 +3,8 @@ import { ContinueToCheckoutCard } from "@/components/ContinueToCheckoutCard";
 import prisma from "@/lib/utils/prisma";
 import { auth } from "@clerk/nextjs";
 
+export const revalidate = 5;
+
 export default async function Cart() {
   const { userId } = auth();
 

@@ -33,8 +33,7 @@ export async function POST(request: Request) {
           checkoutSessionCompleted.metadata.userId
         );
 
-        return NextResponse.json({ success: "ok", status }, { status: 200 });
-
+        return NextResponse.json({ status }, { status: 200 });
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
