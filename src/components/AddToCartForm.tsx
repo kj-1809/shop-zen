@@ -1,7 +1,7 @@
 "use client";
 
 import { AddToCartApiRequest } from "@/lib/validators/api-request";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export const AddToCartForm: React.FC<Props> = ({ productId }) => {
+  const queryClient = useQueryClient();
+
   const { isLoading, mutate: handleAddToCart } = useMutation({
     mutationFn: async () => {
       const payload: AddToCartApiRequest = {
@@ -19,7 +21,7 @@ export const AddToCartForm: React.FC<Props> = ({ productId }) => {
       };
       return await axios.post("/api/add-product-to-cart", payload);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Product Added to Cart Successfully");
     },
     onError: (error: AxiosError) => {
