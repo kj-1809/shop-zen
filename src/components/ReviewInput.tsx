@@ -29,6 +29,7 @@ export const ReviewInput: React.FC<Props> = ({ productId }) => {
       toast.success("Review added successfully !");
       startTransition(() => {
         router.refresh();
+        setReviewText("");
       });
     },
     onError: (e: AxiosError) => {
