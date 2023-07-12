@@ -8,42 +8,42 @@ import { HomepageLoading } from "@/components/HomepageLoading";
 import Providers from "@/components/Providers";
 
 const montserrat = Montserrat({
-	subsets: ["latin"],
-	variable: "--font-montserrat",
+  subsets: ["latin"],
+  variable: "--font-montserrat",
 });
 const coveredByYourGrace = Covered_By_Your_Grace({
-	subsets: ["latin"],
-	weight: ["400"],
-	variable: "--font-grace",
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-grace",
 });
 
 export const metadata = {
-	title: "Shop Zen",
-	description: "Buy immaculate products online !",
+  title: "Shop Zen",
+  description: "Buy immaculate products online !",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body
-					className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
-				>
-					<Providers>
-						<Toaster position="bottom-center" />
-						<Suspense
-							fallback={<div className="h-16 bg-gray-300 animate-pulse"></div>}
-						>
-							<Navbar />
-						</Suspense>
-						<Suspense fallback={<HomepageLoading />}>{children}</Suspense>
-					</Providers>
-				</body>
-			</html>
-		</ClerkProvider>
-	);
+  return (
+    <ClerkProvider>
+      <html lang='en'>
+        <body
+          className={`${montserrat.variable} ${coveredByYourGrace.variable} font-montserrat`}
+        >
+          <Providers>
+            <Toaster position='bottom-center' />
+            <Suspense
+              fallback={<div className='h-16 bg-gray-200 animate-pulse'></div>}
+            >
+              <Navbar />
+            </Suspense>
+            <Suspense fallback={<HomepageLoading />}>{children}</Suspense>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
 }
