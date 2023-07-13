@@ -30,9 +30,6 @@ const Dashboard = async () => {
 
   return (
     <div className='p-4'>
-      <div className=''>
-        <DashboardNavbar />
-      </div>
       <div className='mt-8 ml-2'>
         <h1 className='text-4xl font-semibold'>Dashboard</h1>
       </div>

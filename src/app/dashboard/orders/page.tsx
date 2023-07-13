@@ -9,6 +9,7 @@ export default async function OrdersPage() {
 
   return (
     <div className='flex flex-col'>
+      <h1 className='text-4xl font-semibold mt-8 pl-2'>Orders</h1>
       {orders.map((order) => {
         return (
           <OrderCard

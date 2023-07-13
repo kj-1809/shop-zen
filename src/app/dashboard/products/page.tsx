@@ -8,7 +8,7 @@ export default async function Products() {
   });
   return (
     <div>
-      <h1 className='text-4xl font-semibold'>Products</h1>
+      <h1 className='text-4xl font-semibold pl-2 mt-8'>Products</h1>
       {products.map((product) => (
         <ProductAdminCard
           key={product.id}
