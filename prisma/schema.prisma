@@ -12,7 +12,7 @@ model User {
   id    String   @id @default(cuid())
   name  String
   email String
-  profileImageUrl String?
+  profileImageUrl String? @db.Text
   role  UserRole @default(USER)
 
   cart    CartItem[]
