@@ -110,7 +110,7 @@ const Dashboard = async () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              Rs. {orders._sum.total?.toLocaleString("en-US")}
+              Rs. {orders._sum.total?.toLocaleString("en-US") || 0}
             </div>
             <p className='text-xs text-muted-foreground'>
               +20.1% from last month
@@ -190,7 +190,7 @@ const Dashboard = async () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              +{orders._avg.total!.toLocaleString("en-US")}
+              +{orders._avg.total?.toLocaleString("en-US") || 0}
             </div>
             <p className='text-xs text-muted-foreground'>
               +201 since last hour

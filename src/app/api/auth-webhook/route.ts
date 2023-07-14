@@ -15,8 +15,8 @@ export async function POST(request: Request) {
       },
     });
     console.log("data : new User ", newUser);
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true } , {status : 200});
   } catch (e) {
-    return NextResponse.json({ error: e });
+    return NextResponse.json({ error: e } , {status : 500});
   }
 }
