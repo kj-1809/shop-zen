@@ -7,11 +7,11 @@ import {
 } from "@/components/ui/card";
 import { Overview } from "@/components/Overview";
 import { RecentSales } from "@/components/RecentSales";
-import { DashboardNavbar } from "@/components/DashboardNavbar";
 import prisma from "@/lib/utils/prisma";
+import moment from "moment";
 
 const Dashboard = async () => {
-  const orders = await prisma.order.aggregate({
+  const ordersQuery = prisma.order.aggregate({
     _sum: {
       total: true,
     },
@@ -21,12 +21,70 @@ const Dashboard = async () => {
     _avg: {
       total: true,
     },
+    where: {
+      createdAt: {
+        gte: new Date(
+          new Date().getTime() - new Date().getDate() * 24 * 60 * 60 * 1000
+        ),
+      },
+    },
   });
-  const users = await prisma.user.aggregate({
+  const usersQuery = prisma.user.aggregate({
     _count: {
       id: true,
     },
   });
+
+  const ordersDataQuery = prisma.order.findMany({
+    where: {
+      createdAt: {
+        gte: moment().startOf("year").toDate(),
+      },
+    },
+  });
+
+  const [orders, users, ordersData] = await prisma.$transaction([
+    ordersQuery,
+    usersQuery,
+    ordersDataQuery,
+  ]);
+
+  let graphData = [];
+  let cur = 0;
+
+  for (let month = 0; month < 12; ++month) {
+    if (cur >= ordersData.length) {
+      break;
+    }
+
+    let curTotal = 0;
+    while (
+      cur < ordersData.length &&
+      ordersData[cur].createdAt >=
+        moment()
+          .set("year", new Date().getFullYear())
+          .set("month", month)
+          .startOf("month")
+          .toDate() &&
+      ordersData[cur].createdAt <=
+        moment()
+          .set("year", new Date().getFullYear())
+          .set("month", month)
+          .endOf("month")
+          .toDate()
+    ) {
+      curTotal += ordersData[cur].total;
+      cur += 1;
+    }
+
+    // based on the month generate the data
+    if (curTotal !== 0 || new Date().getMonth() >= month) {
+      graphData[month] = {
+        name: moment().set("month", month).format("MMM"),
+        total: curTotal,
+      };
+    }
+  }
 
   return (
     <div className='p-4'>
@@ -146,15 +204,19 @@ const Dashboard = async () => {
             <CardTitle>Overview</CardTitle>
           </CardHeader>
           <CardContent className='pl-2'>
-            <Overview />
+            {/* @ts-expect-error Server Component */}
+            <Overview data={graphData} />
           </CardContent>
         </Card>
         <Card className='col-span-3'>
           <CardHeader>
             <CardTitle>Recent Sales</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
+            <CardDescription>
+              You made {orders._count.id} sales this month.
+            </CardDescription>
           </CardHeader>
           <CardContent>
+            {/* @ts-expect-error Server Component */}
             <RecentSales />
           </CardContent>
         </Card>

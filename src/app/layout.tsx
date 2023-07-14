@@ -38,6 +38,7 @@ export default function RootLayout({
             <Suspense
               fallback={<div className='h-16 bg-gray-200 animate-pulse'></div>}
             >
+              {/* @ts-expect-error Server Component */}
               <Navbar />
             </Suspense>
             <Suspense fallback={<HomepageLoading />}>{children}</Suspense>

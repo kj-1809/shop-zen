@@ -3,7 +3,7 @@ import logo from "../../public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +18,6 @@ import prisma from "@/lib/utils/prisma";
 
 const Navbar = async () => {
   const { userId } = auth();
-  const user = await currentUser();
 
   const fetchUserData = async () => {
     if (userId) {
@@ -27,7 +26,9 @@ const Navbar = async () => {
           id: userId,
         },
         select: {
+          profileImageUrl: true,
           role: true,
+          name: true,
         },
       });
       return data;
@@ -59,7 +60,7 @@ const Navbar = async () => {
               <DropdownMenuTrigger className='flex items-center justify-center'>
                 <h1>
                   <Image
-                    src={user?.profileImageUrl || ""}
+                    src={userData?.profileImageUrl || ""}
                     alt='profile-img'
                     height={36}
                     width={36}
@@ -68,9 +69,7 @@ const Navbar = async () => {
                 </h1>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuLabel>
-                  Welcome, {user?.firstName}
-                </DropdownMenuLabel>
+                <DropdownMenuLabel>Welcome, {userData?.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
                 <Link href='/myorders'>
