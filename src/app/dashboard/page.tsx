@@ -73,10 +73,6 @@ const Dashboard = async () => {
       cur += 1;
     }
 
-    // based on the month generate the data
-    console.log("CHecking ..");
-    console.log(new Date().getMonth());
-    console.log(new Date().getMonth() >= month);
     if (curTotal !== 0 || new Date().getMonth() >= month) {
       console.log("month : ", month);
       graphData[month] = {
