@@ -24,7 +24,7 @@ const Dashboard = async () => {
     where: {
       createdAt: {
         gte: new Date(
-          new Date().getTime() - new Date().getDate() * 24 * 60 * 60 * 1000
+          new Date().getTime() - new Date().getDate() * 30 * 24 * 60 * 60 * 1000
         ),
       },
     },
@@ -53,10 +53,6 @@ const Dashboard = async () => {
   let cur = 0;
 
   for (let month = 0; month < 12; ++month) {
-    if (cur >= ordersData.length) {
-      break;
-    }
-
     let curTotal = 0;
     while (
       cur < ordersData.length &&
@@ -78,7 +74,11 @@ const Dashboard = async () => {
     }
 
     // based on the month generate the data
+    console.log("CHecking ..");
+    console.log(new Date().getMonth());
+    console.log(new Date().getMonth() >= month);
     if (curTotal !== 0 || new Date().getMonth() >= month) {
+      console.log("month : ", month);
       graphData[month] = {
         name: moment().set("month", month).format("MMM"),
         total: curTotal,
@@ -113,7 +113,8 @@ const Dashboard = async () => {
               Rs. {orders._sum.total?.toLocaleString("en-US") || 0}
             </div>
             <p className='text-xs text-muted-foreground'>
-              +20.1% from last month
+              {/* +20.1% from last month */}
+              Last 30 days
             </p>
           </CardContent>
         </Card>
