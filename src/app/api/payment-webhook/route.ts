@@ -78,7 +78,7 @@ async function createOrder(sessionId: string, userId: string) {
           },
         },
         address: `${checkoutSession.customer_details?.address?.line1} , ${checkoutSession.customer_details?.address?.line2} , ${checkoutSession.customer_details?.address?.city} , ${checkoutSession.customer_details?.address?.state} , ${checkoutSession.customer_details?.address?.country} , PIN - ${checkoutSession.customer_details?.address?.postal_code}`,
-        total: checkoutSession.amount_total,
+        total: checkoutSession.amount_total / 100,
         paymentId: checkoutSession.payment_intent as string,
         items: {
           create: orderItems as any,
