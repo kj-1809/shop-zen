@@ -2,10 +2,7 @@ import Image from "next/image";
 import { Review } from "@/components/Review";
 import prisma from "@/lib/utils/prisma";
 import { ReviewInput } from "@/components/ReviewInput";
-import ProductSearch from "../page";
-import { addReviewValidator } from "@/lib/validators/api-request";
 import { AddToCartForm } from "@/components/AddToCartForm";
-import { Suspense } from "react";
 
 export default async function ProductDetail({
 	params,
