@@ -15,6 +15,7 @@ export default async function Products() {
           name={product.name}
           imgUrl={product.imageUrls[0]?.url}
           price={product.price}
+          id = {product.id}
         />
       ))}
     </div>

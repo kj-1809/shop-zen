@@ -21,6 +21,23 @@ export const addToCartValidator = z.object({
 export const deleteCartItemValidator = z.object({
   id: z.string(),
 });
+export const deleteUserValidator = z.object({
+  userId: z.string(),
+});
+
+export const updateUserValidator = z.object({
+  userId: z.string(),
+  name: z.string(),
+  role: z.string(),
+});
+
+export const updateProductValidator = z.object({
+  productId: z.string(),
+  name: z.string(),
+  price: z.number(),
+  description: z.string(),
+  imageUrls: z.array(z.object({ url: z.string() })),
+});
 
 export const checkoutSessionValidator = z.object({});
 
@@ -31,3 +48,6 @@ export type CheckoutSessionApiRequest = z.infer<
   typeof checkoutSessionValidator
 >;
 export type DeleteCartItemApiRequest = z.infer<typeof deleteCartItemValidator>;
+export type DeleteUserApiRequest = z.infer<typeof deleteUserValidator>;
+export type UpdateUserApiRequest = z.infer<typeof updateUserValidator>;
+export type UpdateProductApiRequest = z.infer<typeof updateProductValidator>;

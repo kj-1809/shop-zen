@@ -9,11 +9,11 @@ datasource db {
 }
 
 model User {
-  id    String   @id @default(cuid())
-  name  String
-  email String
-  profileImageUrl String? @db.Text
-  role  UserRole @default(USER)
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  profileImageUrl String?  @db.Text
+  role            UserRole @default(USER)
 
   cart    CartItem[]
   reviews Review[]
@@ -34,10 +34,11 @@ model Product {
 }
 
 model ImageUrl {
-  url String @id
+  id  String @id @default(cuid())
+  url String
 
   productId String
-  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
