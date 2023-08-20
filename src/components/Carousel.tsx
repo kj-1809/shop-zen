@@ -1,7 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import 'swiper/css/pagination';
+
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 export const Carousel = () => {
   const slides = [
@@ -24,54 +31,46 @@ export const Carousel = () => {
         "https://uploadthing.com/f/1fde90fe-98e1-4662-9825-7b9e10139f51_pexels-pixabay-262047.jpg",
     },
   ];
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
-    }, 3000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [index]);
-
-  function handleNext() {
-    setIndex((prev) => (prev + 1) % slides.length);
-  }
-
-  function handleBack() {
-    setIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }
 
   return (
-    <div className='h-[70vh] relative'>
-      <Image
-        src={`${slides[index].imgUrl}`}
-        alt='carousel-img'
-        fill
-        style={{ objectFit: "cover" }}
-      />
-
-      <div
-        onClick={handleBack}
-        className='absolute top-[50%] left-2 bg-slate-500 rounded-full text-2xl opacity-50 cursor-pointer p-2'
+    <div className="h-[70vh]">
+      <Swiper
+        spaceBetween={10}
+        slidesPerView={1}
+        navigation={true}
+        modules={[Navigation , Autoplay , Pagination]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+          dynamicBullets : true,
+        }} 
       >
-        <AiOutlineArrowLeft />
-      </div>
-      <div
-        onClick={handleNext}
-        className='absolute top-[50%] right-2 bg-slate-500 rounded-full text-2xl opacity-50 cursor-pointer p-2'
-      >
-        <AiOutlineArrowRight />
-      </div>
-
-      <div className='absolute bottom-4 left-4'>
-        <h1 className='font-bold text-4xl text-white'>{slides[index].title}</h1>
-        <h1 className='font-semibold text-2xl text-white'>
-          {slides[index].description}
-        </h1>
-      </div>
+        {slides.map((slide) => {
+          return (
+            <SwiperSlide>
+              <div className="relative h-[70vh]">
+                <Image
+                  src={`${slide.imgUrl}`}
+                  alt="carousel-img"
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+                <div className="absolute bottom-4 left-4">
+                  <h1 className="font-bold text-4xl text-white">
+                    {slide.title}
+                  </h1>
+                  <h1 className="font-semibold text-2xl text-white">
+                    {slide.description}
+                  </h1>
+                </div>
+              </div>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </div>
   );
 };

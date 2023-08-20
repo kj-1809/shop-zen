@@ -19,7 +19,7 @@ export const ProductCard: React.FC<Props> = ({
 			<div className="m-2 p-4 shadow-md rounded-md">
 				<div className="relative h-96">
 					<Image
-						src={imgUrl}
+						src={imgUrl ? imgUrl : "https://utfs.io/f/df67f7ca-2460-45c6-84ad-4f0d428c5850_pexels-matheus-guimara%CC%83es-1291766.jpg"}
 						alt="productimg"
 						fill
 						style={{ objectFit: "cover" }}

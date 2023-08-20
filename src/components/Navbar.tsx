@@ -76,13 +76,13 @@ const Navbar = async () => {
                 <DropdownMenuSeparator />
 
                 <Link href='/myorders'>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className = "cursor-pointer">
                     <Package className='mr-2' />
                     My Orders
                   </DropdownMenuItem>
                 </Link>
 
-                <DropdownMenuItem>
+                <DropdownMenuItem className = "cursor-pointer">
                   <User2 className='mr-2' />
                   My Account
                 </DropdownMenuItem>
@@ -97,14 +97,14 @@ const Navbar = async () => {
                     <DropdownMenuSeparator />
 
                     <Link href='/products/add'>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className = "cursor-pointer">
                         <Plus className='mr-2' />
                         Add New Product
                       </DropdownMenuItem>
                     </Link>
 
                     <Link href='/dashboard'>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem className = "cursor-pointer">
                         <LayoutDashboard className='mr-2' />
                         Dashboard
                       </DropdownMenuItem>
