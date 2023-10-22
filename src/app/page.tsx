@@ -12,7 +12,7 @@ export default async function Home() {
     include: {
       imageUrls: true,
     },
-    take: 3,
+    take: 4,
     orderBy: {
       createdAt: "desc",
     },
@@ -21,10 +21,10 @@ export default async function Home() {
   return (
     <main className=''>
       <Carousel />
-      <h1 className='mt-10 text-5xl font-semibold text-center font-grace'>
+      <h1 className='mt-20 text-6xl font-semibold text-center font-grace'>
         Trending
       </h1>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4'>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-14'>
         {products.map((product) => (
           <ProductCard
             key={product.id}

@@ -8,15 +8,26 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 
-export const ProductsSlider = () => {
+interface ProductsSliderProps {
+  products: {
+    name: string;
+    id: string;
+    price: number;
+    imageUrls: { url: string }[];
+  }[];
+}
+
+export const ProductsSlider = (props: ProductsSliderProps) => {
   return (
     <div className="mt-10 mb-10 p-2">
-      <h1 className="text-4xl font-semibold ml-2 text-center">Other Products</h1>
+      <h1 className="text-4xl font-semibold ml-2 text-center">
+        Other products
+      </h1>
       <Swiper
         spaceBetween={10}
         slidesPerView={4}
         modules={[Navigation]}
-        navigation = {true}
+        navigation={true}
         className="mt-10"
         breakpoints={{
           640: {
@@ -25,29 +36,29 @@ export const ProductsSlider = () => {
           768: {
             slidesPerView: 3,
           },
-          100 : {
-            slidesPerView : 1,
+          500: {
+            slidesPerView: 2,
           },
-          1000 : {
-            slidesPerView : 4
-          }
+          100: {
+            slidesPerView: 1,
+          },
+          1000: {
+            slidesPerView: 4,
+          },
         }}
       >
-        <SwiperSlide>
-          <ProductCard id = "clldivyn30000i9t9tdgdi8yc" name = "some name" price = {100} imgUrl = ""/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard id = "dd" name = "some name" price = {100} imgUrl = ""/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard id = "dd" name = "some name" price = {100} imgUrl = ""/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard id = "dd" name = "some name" price = {100} imgUrl = ""/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard id = "dd" name = "some name" price = {100} imgUrl = ""/>
-        </SwiperSlide>
+        {props.products.map((product) => {
+          return (
+            <SwiperSlide>
+              <ProductCard
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                imgUrl={product.imageUrls[0].url || ""}
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );
