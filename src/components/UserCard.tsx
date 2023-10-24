@@ -26,7 +26,7 @@ export const UserCard = ({ user }: { user: UserCardProps }) => {
       const payload: DeleteUserApiRequest = {
         userId: user.id,
       };
-      return await axios.post("/api/delete-user", payload);
+      return await axios.post("/api/users/delete", payload);
     },
     onSuccess: () => {
       toast.success("Successfully deleted user !");

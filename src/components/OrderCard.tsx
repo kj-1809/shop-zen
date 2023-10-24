@@ -33,7 +33,7 @@ export const OrderCard: React.FC<Props> = ({
             <h1>Date</h1>
             <h1>{createdAt}</h1>
             <h1>Total</h1>
-            <h1>Rs. {total / 100}</h1>
+            <h1>Rs. {total}</h1>
             <h1>Payment Status</h1>
             <h1>{paymentStatus}</h1>
             <h1>Delivery Status</h1>

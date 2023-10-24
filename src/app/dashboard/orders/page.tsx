@@ -8,7 +8,7 @@ export default async function OrdersPage() {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["orders"],
     queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await axios.get(`/api/fetch-orders?page=${pageParam}`);
+      const { data } = await axios.get(`/api/orders?page=${pageParam}`);
       return data.data;
     },
     getNextPageParam: (_, pages) => {

@@ -19,7 +19,7 @@ export const AddToCartForm: React.FC<Props> = ({ productId }) => {
         productId: productId,
         quantityModifier: 1,
       };
-      return await axios.post("/api/add-product-to-cart", payload);
+      return await axios.post("/api/cart/add-item", payload);
     },
     onSuccess: () => {
       toast.success("Product Added to Cart Successfully");

@@ -66,9 +66,6 @@ async function createOrder(sessionId: string, userId: string) {
   });
 
   // create an order in the db
-
-  console.log("In theh create order space");
-
   try {
     await prisma.order.create({
       data: {

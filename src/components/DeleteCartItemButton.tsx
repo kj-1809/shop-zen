@@ -21,7 +21,7 @@ export const DeleteCartItemButton: React.FC<Props> = ({ id }) => {
       const payload: DeleteCartItemApiRequest = {
         id: id,
       };
-      await axios.post("/api/delete-cart-item", payload);
+      await axios.post("/api/cart/delete-item", payload);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

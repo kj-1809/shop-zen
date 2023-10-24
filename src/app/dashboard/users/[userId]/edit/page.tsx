@@ -16,7 +16,7 @@ export default function EditUser({ params }: { params: { userId: string } }) {
     queryKey: ["fetch-user"],
     queryFn: async () => {
       const { data } = await axios.get(
-        `/api/fetch-user?userId=${params.userId}`
+        `/api/users?userId=${params.userId}`
       );
       return data;
     },
@@ -34,7 +34,7 @@ export default function EditUser({ params }: { params: { userId: string } }) {
     mutationKey: ["update-user"],
     mutationFn: async () => {
       const payload : UpdateUserApiRequest = { userId: params.userId, name, role };
-      const {data} = await axios.post("/api/update-user", payload);
+      const {data} = await axios.post("/api/users/update", payload);
       return data; 
     },
     onSuccess: (_) => {

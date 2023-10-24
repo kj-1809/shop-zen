@@ -19,7 +19,7 @@ export default async function Cart() {
   const { isLoading, data: cartItems } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
-      const { data } = await axios.get("api/fetch-cart");
+      const { data } = await axios.get("api/cart");
       return data;
     },
     onError: (e: AxiosError) => {

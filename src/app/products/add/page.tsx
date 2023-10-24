@@ -20,7 +20,7 @@ export default function AddProduct() {
 			};
 			// throw new Error()
 			console.log("start")
-			const {data} = await axios.post("/api/addproduct", payload);
+			const {data} = await axios.post("/api/products/add", payload);
 			console.log("dataaa : " , data)
 		},
 		onSuccess: () => {

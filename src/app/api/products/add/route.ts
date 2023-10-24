@@ -6,7 +6,6 @@ import { addProductValidator } from "@/lib/validators/api-request";
 export async function POST(request: Request) {
 	// check if user is authorized
 	const { userId } = auth();
-	console.log("userId : " ,  userId)
 	if (!userId) {
 		return NextResponse.json(
 			{ error: "UNAUTHORIZED" },

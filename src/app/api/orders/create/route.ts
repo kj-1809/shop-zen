@@ -3,7 +3,6 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-	console.log("hey there im in create order route ");
 	const { userId } = auth();
 	const checkoutSession = await request.json();
 

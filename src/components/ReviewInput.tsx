@@ -23,7 +23,7 @@ export const ReviewInput: React.FC<Props> = ({ productId }) => {
         reviewText,
         productId,
       };
-      await axios.post("/api/addreview", payload);
+      await axios.post("/api/add-review", payload);
     },
     onSuccess: () => {
       toast.success("Review added successfully !");
