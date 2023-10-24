@@ -3,35 +3,26 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/utils/prisma";
 import { updateUserValidator } from "@/lib/validators/api-request";
 import { UserRole } from "@prisma/client";
+import { checkIfAdmin } from "@/lib/helpers/authentication";
 
 export async function POST(request: Request) {
   const { userId } = auth();
 
-  if (!userId) {
-    return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
-  }
-
-  const user = await prisma?.user.findFirst({
-    where: {
-      id: userId,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (user && user.role !== "ADMIN") {
+  const isAdmin = await checkIfAdmin(userId);
+  if (!isAdmin) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
 
   try {
     const data = await request.json();
 
+    const validatedData = updateUserValidator.safeParse(data);
 
-    const validatedData = updateUserValidator.safeParse(data)
-
-    if(!validatedData.success){
-      return NextResponse.json({error : "Invalid input data"} , {status : 400});
+    if (!validatedData.success) {
+      return NextResponse.json(
+        { error: "Invalid input data" },
+        { status: 400 }
+      );
     }
 
     await prisma.user.update({

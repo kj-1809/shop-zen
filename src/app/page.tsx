@@ -3,13 +3,11 @@ import { Carousel } from "@/components/Carousel";
 import prisma from "@/lib/utils/prisma";
 
 // landing page
-
 export default async function Home() {
   const products = await prisma.product.findMany({
     include: {
       imageUrls: true,
     },
-    take: 4,
     orderBy: {
       createdAt: "desc",
     },

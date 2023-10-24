@@ -1,23 +1,14 @@
 import { auth, clerkClient } from "@clerk/nextjs";
 import prisma from "@/lib/utils/prisma";
 import { NextResponse } from "next/server";
+import { checkIfAdmin } from "@/lib/helpers/authentication";
+
 export async function POST(request: Request) {
   const { userId } = auth();
 
-  if (!userId) {
-    return NextResponse.json({ message: "UNAUTHORIZED" }, { status: 401 });
-  }
+  const isAdmin = await checkIfAdmin(userId);
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (user?.role !== "ADMIN") {
+  if(!isAdmin){
     return NextResponse.json({ message: "UNAUTHORIZED" }, { status: 401 });
   }
 

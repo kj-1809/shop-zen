@@ -48,7 +48,7 @@ export default async function ProductDetail({
             {product?.name}
           </h1>
           <p className="mt-1 font-medium">{product?.description}</p>
-          <h2 className="mt-10 font-bold text-4xl">Rs. {product?.price}</h2>
+          <h2 className="mt-10 font-bold text-4xl">Rs. {product?.price.toLocaleString("en-IN")}</h2>
           <div className="flex justify-center">
             <AddToCartForm productId={params.productId} />
           </div>

@@ -2,25 +2,13 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/utils/prisma";
 import { updateProductValidator } from "@/lib/validators/api-request";
-import { Prisma } from "@prisma/client";
+import { checkIfAdmin } from "@/lib/helpers/authentication";
 
 export async function POST(request: Request) {
   const { userId } = auth();
 
-  if (!userId) {
-    return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
-  }
-
-  const userData = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-    select: {
-      role: true,
-    },
-  });
-
-  if (!userData || userData.role !== "ADMIN") {
+	const isAdmin = await checkIfAdmin(userId);
+  if(!isAdmin){
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
 

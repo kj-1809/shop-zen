@@ -1,7 +1,7 @@
 /** app/api/uploadthing/core.ts */
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { auth } from "@clerk/nextjs";
-import prisma from "@/lib/utils/prisma";
+import { checkIfAdmin } from "@/lib/helpers/authentication";
 
 const f = createUploadthing();
 
@@ -13,20 +13,10 @@ export const ourFileRouter = {
 		.middleware(async (req) => {
 			// This code runs on your server before upload
 			const { userId } = auth();
-      if(!userId) throw new Error("Unauthorized")
-
-      const user = await prisma.user.findFirst({
-        where : {
-          id : userId
-        },
-        select : {
-          role : true
-        }
-      })
-      
-      if(!user || user.role !== "ADMIN"){
-        throw new Error("Unauthorized")
-      }
+			const isAdmin = await checkIfAdmin(userId);
+			if(!isAdmin){
+				throw new Error("Unauthorized");
+			}
 			// Whatever is returned here is accessible in onUploadComplete as `metadata`
 			return { userId };
 		})

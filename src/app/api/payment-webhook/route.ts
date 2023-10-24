@@ -8,6 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(request: Request) {
+  // signing secret is apparently not a secret !
   const signingSecret = "whsec_Ch6Er6tkCnIW6zJCGznl4fxyRnlS0oph";
   const sig = headers().get("stripe-signature");
   let event;
